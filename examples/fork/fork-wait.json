@@ -1,0 +1,9 @@
+{
+  "id": "fork-wait",
+  "title": "fork + wait",
+  "description": "wait() makes the parent print after its child, in every interleaving.",
+  "input": {
+    "code": "#include <stdio.h>\n#include <unistd.h>\n#include <sys/wait.h>\n\nint main() {\n    pid_t pid = fork();\n    if (pid == 0) {\n        printf(\"Child is running\\n\");\n        return 0;\n    }\n    wait(NULL);\n    printf(\"Parent continues after the child finished\\n\");\n    return 0;\n}\n",
+    "mode": "exhaustive"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "fork-example-1",
+  "title": "Fork Example 1",
+  "description": "fork() then print: both processes run the printf.",
+  "input": {
+    "code": "#include <stdio.h>\n#include <unistd.h>\n\nint main() {\n    fork();\n    printf(\"Hello from process %d\\n\", getpid());\n    return 0;\n}\n"
+  }
+}

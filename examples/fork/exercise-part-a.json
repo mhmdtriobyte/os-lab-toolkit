@@ -1,0 +1,8 @@
+{
+  "id": "exercise-part-a",
+  "title": "Exercise Part A: parent and child",
+  "description": "if (pid) separates parent and child; both sleep(30). Kill the parent in the ps table while both sleep to see the orphan.",
+  "input": {
+    "code": "#include <stdio.h>\n#include <unistd.h>\n\nint main() {\n    pid_t pid = fork();\n    if (pid) {\n        printf(\"Parent: PID %d, my child is %d\\n\", getpid(), pid);\n        sleep(30);\n        printf(\"Parent done\\n\");\n    } else {\n        printf(\"Child: PID %d, my parent is %d\\n\", getpid(), getppid());\n        sleep(30);\n        printf(\"Child: my parent is now %d\\n\", getppid());\n    }\n    return 0;\n}\n"
+  }
+}

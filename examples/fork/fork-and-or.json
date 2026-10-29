@@ -1,0 +1,8 @@
+{
+  "id": "fork-and-or",
+  "title": "fork() with && and ||",
+  "description": "Short-circuit evaluation decides which processes call the second fork().",
+  "input": {
+    "code": "#include <stdio.h>\n#include <unistd.h>\n\nint main() {\n    if (fork() && fork()) {\n        printf(\"A: %d\\n\", getpid());\n    } else {\n        printf(\"B: %d\\n\", getpid());\n    }\n    return 0;\n}\n"
+  }
+}

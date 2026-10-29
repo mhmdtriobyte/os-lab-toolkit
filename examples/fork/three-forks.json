@@ -1,0 +1,8 @@
+{
+  "id": "three-forks",
+  "title": "fork(); fork(); fork();",
+  "description": "Three forks in a row create 2^3 = 8 processes.",
+  "input": {
+    "code": "#include <stdio.h>\n#include <unistd.h>\n\nint main() {\n    fork();\n    fork();\n    fork();\n    printf(\"Hello from %d (parent %d)\\n\", getpid(), getppid());\n    return 0;\n}\n"
+  }
+}

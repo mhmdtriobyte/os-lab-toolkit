@@ -1,0 +1,8 @@
+{
+  "id": "fork-loop",
+  "title": "fork() in a loop",
+  "description": "Every process that is alive at the next iteration forks again.",
+  "input": {
+    "code": "#include <stdio.h>\n#include <unistd.h>\n\nint main() {\n    for (int i = 0; i < 3; i++) {\n        fork();\n        printf(\"i = %d, PID %d\\n\", i, getpid());\n    }\n    return 0;\n}\n"
+  }
+}

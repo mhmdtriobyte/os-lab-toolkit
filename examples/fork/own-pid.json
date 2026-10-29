@@ -1,0 +1,8 @@
+{
+  "id": "own-pid",
+  "title": "Print own PID",
+  "description": "A process asks the OS for its own id and its parent's id.",
+  "input": {
+    "code": "#include <stdio.h>\n#include <unistd.h>\n\nint main() {\n    printf(\"My PID is %d\\n\", getpid());\n    printf(\"My parent's PID is %d\\n\", getppid());\n    return 0;\n}\n"
+  }
+}

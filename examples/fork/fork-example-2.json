@@ -1,0 +1,9 @@
+{
+  "id": "fork-example-2",
+  "title": "Fork Example 2: before / after",
+  "description": "Code before fork() runs once, code after it runs twice.",
+  "input": {
+    "code": "#include <stdio.h>\n#include <unistd.h>\n\nint main() {\n    printf(\"Before the fork\\n\");\n    pid_t pid = fork();\n    printf(\"After the fork, fork() returned %d\\n\", pid);\n    return 0;\n}\n",
+    "mode": "exhaustive"
+  }
+}

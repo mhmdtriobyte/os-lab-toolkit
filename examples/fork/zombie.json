@@ -1,0 +1,8 @@
+{
+  "id": "zombie",
+  "title": "Zombie demo",
+  "description": "The child exits while the parent sleeps: it stays a zombie until wait().",
+  "input": {
+    "code": "#include <stdio.h>\n#include <unistd.h>\n#include <sys/wait.h>\n\nint main() {\n    pid_t pid = fork();\n    if (pid == 0) {\n        printf(\"Child %d exits now\\n\", getpid());\n        exit(7);\n    }\n    sleep(10);\n    int status;\n    pid_t done = wait(&status);\n    printf(\"Parent reaped %d, exit code %d\\n\", done, WEXITSTATUS(status));\n    return 0;\n}\n"
+  }
+}
