@@ -80,7 +80,10 @@ function FrameTable({
                       <sup className="text-[0.6rem] text-slate-500">{s.refBits[f] ? '1' : '0'}</sup>
                     )}
                     {shown && s.hand === f && (
-                      <span className="text-[0.6rem] text-indigo-600"> ◀</span>
+                      <span className="text-[0.6rem] font-bold text-indigo-600" title="clock hand">
+                        {' '}
+                        &lt;
+                      </span>
                     )}
                   </td>
                 );
@@ -133,9 +136,17 @@ function BeladyChart({ refs }: { refs: number[] }) {
         ))}
       </div>
       <p className="text-xs text-slate-600 dark:text-slate-300">
-        Frames on the x-axis. <span className="font-semibold text-indigo-600">■ FIFO</span>{' '}
-        <span className="font-semibold text-emerald-600">■ LRU</span>{' '}
-        <span className="font-semibold text-rose-600">■ FIFO getting worse with more frames</span>
+        Frames on the x-axis.{' '}
+        <span className="inline-flex items-center gap-1 font-semibold text-indigo-600">
+          <span className="h-2.5 w-2.5 rounded-sm bg-indigo-500" /> FIFO
+        </span>{' '}
+        <span className="inline-flex items-center gap-1 font-semibold text-emerald-600">
+          <span className="h-2.5 w-2.5 rounded-sm bg-emerald-500" /> LRU
+        </span>{' '}
+        <span className="inline-flex items-center gap-1 font-semibold text-rose-600">
+          <span className="h-2.5 w-2.5 rounded-sm bg-rose-500" /> FIFO getting worse with more
+          frames
+        </span>
       </p>
       <table className={cx(tableClass, 'w-auto tabular-nums')}>
         <thead>

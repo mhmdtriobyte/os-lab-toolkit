@@ -1,4 +1,5 @@
 import { useEffect, useState, type KeyboardEvent } from 'react';
+import { Icon } from './Icon';
 import { Button } from './primitives';
 
 export interface StepPlayerProps {
@@ -67,7 +68,7 @@ export function StepPlayer({ count, index, onIndexChange, label }: StepPlayerPro
             go(0);
           }}
         >
-          ⏮
+          <Icon name="first" />
         </Button>
         <Button
           aria-label="Step back"
@@ -75,7 +76,7 @@ export function StepPlayer({ count, index, onIndexChange, label }: StepPlayerPro
           onClick={() => go(index - 1)}
           disabled={index <= 0}
         >
-          ◀
+          <Icon name="prev" />
         </Button>
         <Button
           variant="primary"
@@ -83,9 +84,10 @@ export function StepPlayer({ count, index, onIndexChange, label }: StepPlayerPro
           title="Play / pause (space)"
           onClick={togglePlay}
           disabled={count <= 1}
-          className="w-20"
+          className="w-24"
         >
-          {playing ? '❚❚ Pause' : '▶ Play'}
+          <Icon name={playing ? 'pause' : 'play'} />
+          {playing ? 'Pause' : 'Play'}
         </Button>
         <Button
           aria-label="Step forward"
@@ -93,7 +95,7 @@ export function StepPlayer({ count, index, onIndexChange, label }: StepPlayerPro
           onClick={() => go(index + 1)}
           disabled={index >= last}
         >
-          ▶
+          <Icon name="next" />
         </Button>
         <Button
           aria-label="Go to end"
@@ -101,7 +103,7 @@ export function StepPlayer({ count, index, onIndexChange, label }: StepPlayerPro
           onClick={() => go(last)}
           disabled={index >= last}
         >
-          ⏭
+          <Icon name="last" />
         </Button>
         <span className="ml-1 text-sm tabular-nums text-slate-600 dark:text-slate-300">
           Step {count === 0 ? 0 : index + 1} / {count}

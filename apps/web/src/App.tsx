@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
 import { Link, NavLink, Route, Routes } from 'react-router-dom';
-import { cx, useTheme } from '@oslab/core';
+import { cx, Icon, useTheme } from '@oslab/core';
 import { REPO_URL } from './config';
 import { examplesFor } from './examples';
 import { Home } from './Home';
 import { modules } from './modules';
 
 const toolbarButton =
-  'rounded-md border px-2 py-1 text-sm border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800';
+  'inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-sm border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800';
 
 function Header() {
   const { theme, setTheme, presentation, setPresentation } = useTheme();
@@ -55,9 +55,11 @@ function Header() {
             className={toolbarButton}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
           >
-            {theme === 'dark' ? '☀ Light' : '☾ Dark'}
+            <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
+            {theme === 'dark' ? 'Light' : 'Dark'}
           </button>
           <a href={REPO_URL} target="_blank" rel="noreferrer" className={toolbarButton}>
+            <Icon name="github" />
             GitHub
           </a>
         </div>

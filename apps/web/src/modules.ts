@@ -1,4 +1,4 @@
-import type { ModuleProps } from '@oslab/core';
+import type { IconName, ModuleProps } from '@oslab/core';
 import { lazy, type ComponentType, type LazyExoticComponent } from 'react';
 
 export interface ModuleEntry {
@@ -7,7 +7,7 @@ export interface ModuleEntry {
   title: string;
   summary: string;
   topics: string[];
-  icon: string;
+  icon: IconName;
   Component: LazyExoticComponent<ComponentType<ModuleProps>>;
 }
 
@@ -18,7 +18,7 @@ export const modules: ModuleEntry[] = [
     summary:
       'Paste C code with fork(), wait() and sleep(). See the process tree, every possible output, zombies and orphans.',
     topics: ['fork', 'getpid', 'wait', 'zombie', 'orphan', 'ps / kill'],
-    icon: '🌳',
+    icon: 'tree',
     Component: lazy(() => import('@oslab/fork-visualizer').then((m) => ({ default: m.Module }))),
   },
   {
@@ -27,7 +27,7 @@ export const modules: ModuleEntry[] = [
     summary:
       'FCFS, SJF, SRTF, Priority and Round Robin with an animated Gantt chart, ready queue, metrics and a compare mode.',
     topics: ['Gantt chart', 'waiting time', 'turnaround', 'preemption', 'time quantum'],
-    icon: '📊',
+    icon: 'chart',
     Component: lazy(() => import('@oslab/sim-scheduling').then((m) => ({ default: m.Module }))),
   },
   {
@@ -36,7 +36,7 @@ export const modules: ModuleEntry[] = [
     summary:
       "Draw resource allocation graphs, run the Banker's safety and request algorithms, and detect deadlocks step by step.",
     topics: ['RAG', "Banker's algorithm", 'safe sequence', 'detection'],
-    icon: '🔒',
+    icon: 'lock',
     Component: lazy(() => import('@oslab/sim-deadlock').then((m) => ({ default: m.Module }))),
   },
   {
@@ -45,7 +45,7 @@ export const modules: ModuleEntry[] = [
     summary:
       'Race conditions, mutexes, semaphores and condition variables. Explore every interleaving or be the scheduler.',
     topics: ['race condition', 'mutex', 'semaphore', 'producer-consumer', 'dining philosophers'],
-    icon: '🧵',
+    icon: 'threads',
     Component: lazy(() => import('@oslab/sim-threads').then((m) => ({ default: m.Module }))),
   },
   {
@@ -54,7 +54,7 @@ export const modules: ModuleEntry[] = [
     summary:
       "Page replacement (FIFO, LRU, Optimal, Clock) with Belady's anomaly, and first, best and worst fit allocation.",
     topics: ['page faults', 'LRU', "Belady's anomaly", 'fragmentation'],
-    icon: '🧠',
+    icon: 'memory',
     Component: lazy(() => import('@oslab/sim-memory').then((m) => ({ default: m.Module }))),
   },
 ];

@@ -1,3 +1,4 @@
+import { Icon } from '@oslab/core';
 import { Link } from 'react-router-dom';
 import { REPO_URL } from './config';
 import { examplesFor } from './examples';
@@ -34,8 +35,8 @@ export function Home() {
                 to={`/${m.id}`}
                 className="flex h-full flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-indigo-400 hover:shadow-md dark:border-slate-700 dark:bg-slate-900 dark:hover:border-indigo-500"
               >
-                <span className="text-3xl" aria-hidden>
-                  {m.icon}
+                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200">
+                  <Icon name={m.icon} className="h-6 w-6" />
                 </span>
                 <span className="text-lg font-semibold text-slate-900 dark:text-white">
                   {m.title}

@@ -1,4 +1,4 @@
-import { Button, NumberInput, randomSeed, tableClass, TextInput } from '@oslab/core';
+import { Button, Icon, NumberInput, randomSeed, tableClass, TextInput } from '@oslab/core';
 import { randomProcesses, type ProcessSpec } from '../engine';
 import { procColor } from './GanttChart';
 
@@ -84,7 +84,7 @@ export function ProcessTableEditor({
                     onClick={() => onChange(processes.filter((_, j) => j !== i))}
                     disabled={processes.length <= 1}
                   >
-                    ✕
+                    <Icon name="close" />
                   </Button>
                 </td>
               </tr>
@@ -101,7 +101,10 @@ export function ProcessTableEditor({
         >
           + Add process
         </Button>
-        <Button onClick={() => onChange(randomProcesses(randomSeed()))}>🎲 Random</Button>
+        <Button onClick={() => onChange(randomProcesses(randomSeed()))}>
+          <Icon name="shuffle" />
+          Random
+        </Button>
       </div>
     </div>
   );

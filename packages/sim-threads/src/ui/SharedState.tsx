@@ -1,27 +1,36 @@
-import { tableClass } from '@oslab/core';
+import type { ReactNode } from 'react';
+import { Icon, tableClass } from '@oslab/core';
 import type { ThreadsProgram, World } from '../engine';
 
 /** Shared variables and synchronisation objects at the current step. */
 export function SharedState({ program, world }: { program: ThreadsProgram; world: World }) {
   const name = (t: number | null | undefined) =>
     t === null || t === undefined ? 'free' : program.threads[t]?.name;
-  const rows: [string, string, string][] = [
-    ...Object.entries(world.shared).map(([k, v]): [string, string, string] => [
+  const rows: [string, string, ReactNode][] = [
+    ...Object.entries(world.shared).map(([k, v]): [string, string, ReactNode] => [
       k,
       'shared variable',
       String(v),
     ]),
-    ...Object.entries(world.mutexes).map(([k, v]): [string, string, string] => [
+    ...Object.entries(world.mutexes).map(([k, v]): [string, string, ReactNode] => [
       k,
       'mutex',
-      v === null ? '🔓 free' : `🔒 held by ${name(v)}`,
+      v === null ? (
+        <span className="inline-flex items-center gap-1">
+          <Icon name="unlock" /> free
+        </span>
+      ) : (
+        <span className="inline-flex items-center gap-1">
+          <Icon name="lock" /> held by {name(v)}
+        </span>
+      ),
     ]),
-    ...Object.entries(world.semaphores).map(([k, v]): [string, string, string] => [
+    ...Object.entries(world.semaphores).map(([k, v]): [string, string, ReactNode] => [
       k,
       'semaphore',
       String(v),
     ]),
-    ...Object.entries(world.conditions).map(([k, v]): [string, string, string] => [
+    ...Object.entries(world.conditions).map(([k, v]): [string, string, ReactNode] => [
       k,
       'condition',
       v.length ? `waiting: ${v.map(name).join(', ')}` : 'no waiters',

@@ -79,7 +79,7 @@ export function DiskModule({ examples }: ModuleProps) {
   title: 'Disk scheduling',
   summary: 'FCFS, SSTF, SCAN and C-SCAN head movement.',
   topics: ['seek time', 'SCAN'],
-  icon: '💽',
+  icon: 'chart',
   Component: lazy(() => import('@oslab/sim-disk').then((m) => ({ default: m.Module }))),
 },
 ```

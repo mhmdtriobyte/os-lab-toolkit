@@ -1,9 +1,9 @@
-import { cx, seriesColor } from '@oslab/core';
+import { cx, Icon, seriesColor } from '@oslab/core';
 import { blockedReason, pseudo, type ThreadsProgram, type ThreadStep } from '../engine';
 
 const WINDOW = 40;
 
-/** Timeline: one row per thread, one column per step; ⏸ marks a thread that is blocked. */
+/** Timeline: one row per thread, one column per step; a pause mark shows a thread that is blocked. */
 export function Swimlanes({
   program,
   steps,
@@ -75,15 +75,19 @@ export function Swimlanes({
                       )}
                       style={ran ? { background: seriesColor(ti) } : undefined}
                     >
-                      {ran
-                        ? instr === null
-                          ? 're-lock'
-                          : t.instrs[instr]
-                            ? pseudo(t.instrs[instr])
-                            : ''
-                        : blocked
-                          ? '⏸'
-                          : ''}
+                      {ran ? (
+                        instr === null ? (
+                          're-lock'
+                        ) : t.instrs[instr] ? (
+                          pseudo(t.instrs[instr])
+                        ) : (
+                          ''
+                        )
+                      ) : blocked ? (
+                        <Icon name="pause" className="h-3 w-3" label="blocked" />
+                      ) : (
+                        ''
+                      )}
                     </button>
                   </td>
                 );

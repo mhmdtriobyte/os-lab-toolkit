@@ -1,5 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
 import type { Example } from '../engine';
+import { Icon } from './Icon';
 import { Alert, Button, Select } from './primitives';
 
 export interface ModuleHeaderProps<T> {
@@ -86,7 +87,8 @@ export function ModuleHeader<T>({
             </Select>
           )}
           <Button onClick={copyLink} title="Copy a link with this input preloaded">
-            🔗 Share link
+            <Icon name="link" />
+            Share link
           </Button>
           <Button
             onClick={() => download(`${moduleId}-input.json`, JSON.stringify(input, null, 2))}

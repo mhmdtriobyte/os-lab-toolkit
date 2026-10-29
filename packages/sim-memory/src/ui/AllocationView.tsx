@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   cx,
+  Icon,
   Field,
   NumberInput,
   Panel,
@@ -136,7 +137,7 @@ function OpsEditor({ ops, onChange }: { ops: MemoryOp[]; onChange: (ops: MemoryO
                   aria-label={`Remove action ${i + 1}`}
                   onClick={() => onChange(ops.filter((_, j) => j !== i))}
                 >
-                  ✕
+                  <Icon name="close" />
                 </Button>
               </td>
             </tr>

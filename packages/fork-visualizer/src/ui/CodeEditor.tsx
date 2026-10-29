@@ -27,8 +27,8 @@ class PidChips extends WidgetType {
     wrap.className = 'cm-pid-chips';
     for (const m of this.marks) {
       const chip = document.createElement('span');
-      chip.textContent = `${m.active ? '▶ ' : ''}P${m.pid}`;
-      chip.style.cssText = `background:${m.color};color:white;border-radius:4px;padding:0 4px;margin-left:4px;font-size:0.75em;font-weight:600;${m.active ? '' : 'opacity:0.7;'}`;
+      chip.textContent = `P${m.pid}`;
+      chip.style.cssText = `background:${m.color};color:white;border-radius:4px;padding:0 4px;margin-left:4px;font-size:0.75em;font-weight:600;${m.active ? 'outline:2px solid currentColor;outline-offset:1px;' : 'opacity:0.7;'}`;
       wrap.appendChild(chip);
     }
     return wrap;

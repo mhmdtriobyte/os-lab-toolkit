@@ -7,3 +7,4 @@ export * from './ui/ModuleHeader';
 export * from './ui/module';
 export * from './ui/colors';
 export * from './ui/OutcomeList';
+export * from './ui/Icon';

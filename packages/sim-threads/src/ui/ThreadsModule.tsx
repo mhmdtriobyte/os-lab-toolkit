@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   Field,
+  Icon,
   ModuleHeader,
   NumberInput,
   OutcomeList,
@@ -195,7 +196,10 @@ export function ThreadsModule({ examples }: ModuleProps) {
                       className="w-28"
                     />
                   </Field>
-                  <Button onClick={() => update({ seed: randomSeed() })}>🎲 Another run</Button>
+                  <Button onClick={() => update({ seed: randomSeed() })}>
+                    <Icon name="shuffle" />
+                    Another run
+                  </Button>
                   {random?.truncated && (
                     <Alert tone="warning">Stopped after {steps.length} steps.</Alert>
                   )}

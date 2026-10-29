@@ -23,9 +23,9 @@ export function ThreadColumns({
             : th?.status === 'error'
               ? 'crashed'
               : reason
-                ? `⏸ ${reason}`
+                ? reason
                 : snap.ran === ti
-                  ? '▶ just ran'
+                  ? 'just ran'
                   : 'ready';
         return (
           <div

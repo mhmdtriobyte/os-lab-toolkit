@@ -53,7 +53,7 @@ function ProcNode({ data }: NodeProps<Node<ProcNodeData>>) {
         )}
       </div>
       <span className={cx('mt-1 rounded px-1.5 text-[11px] font-semibold', style.className)}>
-        {state === 'zombie' ? '🧟 zombie <defunct>' : style.label}
+        {state === 'zombie' ? 'zombie <defunct>' : style.label}
         {proc.signal ? ` (${proc.signal})` : ''}
       </span>
       <Handle type="source" position={Position.Bottom} className="!opacity-0" />
