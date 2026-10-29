@@ -1,0 +1,11 @@
+{
+  "id": "textbook-fifo",
+  "title": "Page replacement: textbook string",
+  "description": "20 references, 3 frames: FIFO 15, LRU 12, OPT 9 faults.",
+  "input": {
+    "tab": "paging",
+    "refs": "7 0 1 2 0 3 0 4 2 3 0 3 2 1 2 0 1 7 0 1",
+    "frames": 3,
+    "algorithm": "compare"
+  }
+}

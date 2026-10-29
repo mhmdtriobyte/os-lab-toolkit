@@ -1,0 +1,32 @@
+{
+  "id": "fit-textbook",
+  "title": "First / best / worst fit",
+  "description": "Partitions 100, 500, 200, 300, 600; processes 212, 417, 112, 426.",
+  "input": {
+    "tab": "allocation",
+    "blocks": "100, 500, 200, 300, 600",
+    "strategy": "compare",
+    "ops": [
+      {
+        "kind": "alloc",
+        "name": "P1",
+        "size": 212
+      },
+      {
+        "kind": "alloc",
+        "name": "P2",
+        "size": 417
+      },
+      {
+        "kind": "alloc",
+        "name": "P3",
+        "size": 112
+      },
+      {
+        "kind": "alloc",
+        "name": "P4",
+        "size": 426
+      }
+    ]
+  }
+}

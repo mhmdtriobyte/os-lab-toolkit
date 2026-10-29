@@ -18,6 +18,7 @@ threads and memory), and neutral enough for any university to use or fork.
 | **CPU scheduling**  | FCFS, SJF, SRTF, Priority (preemptive or not) and Round Robin with an animated Gantt chart (idle gaps included), the ready queue at every time unit, waiting/turnaround/response times, CPU utilization, and a **compare all** mode that names the winner per metric.                                                                                    |
 | **Deadlock**        | Banker's algorithm (Need, step-by-step safety algorithm with Work/Finish, resource-request algorithm), multi-instance deadlock detection, and a drag-and-drop **resource allocation graph** editor that detects cycles and only reports a deadlock when graph reduction confirms it.                                                                     |
 | **Threads**         | A tiny atomic instruction set shown as pseudo-code. Race conditions (`counter++` losing updates), mutexes, semaphores, condition variables, producer-consumer, readers-writers and dining philosophers. Random, manual or exhaustive scheduling, with swimlanes and blocked markers.                                                                     |
+| **Memory**          | Page replacement with FIFO, LRU, Optimal and Clock (frame table, faults, hit ratio, reference bits and hand), a **Belady's anomaly** chart, and first / best / worst fit allocation with frees, hole merging and external fragmentation.                                                                                                                 |
 
 ![Fork visualizer](docs/screenshots/fork.png)
 
@@ -92,6 +93,7 @@ packages/fork-visualizer/
 packages/sim-scheduling/
 packages/sim-deadlock/
 packages/sim-threads/
+packages/sim-memory/
 examples/               JSON presets, one folder per module
 docs/                   Architecture and contributor guides
 ```

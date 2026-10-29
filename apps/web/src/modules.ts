@@ -48,4 +48,13 @@ export const modules: ModuleEntry[] = [
     icon: '🧵',
     Component: lazy(() => import('@oslab/sim-threads').then((m) => ({ default: m.Module }))),
   },
+  {
+    id: 'memory',
+    title: 'Memory',
+    summary:
+      "Page replacement (FIFO, LRU, Optimal, Clock) with Belady's anomaly, and first, best and worst fit allocation.",
+    topics: ['page faults', 'LRU', "Belady's anomaly", 'fragmentation'],
+    icon: '🧠',
+    Component: lazy(() => import('@oslab/sim-memory').then((m) => ({ default: m.Module }))),
+  },
 ];

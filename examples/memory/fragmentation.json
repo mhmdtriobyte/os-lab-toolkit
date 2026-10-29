@@ -1,0 +1,45 @@
+{
+  "id": "fragmentation",
+  "title": "External fragmentation",
+  "description": "After frees, enough memory is free in total but not in one hole.",
+  "input": {
+    "tab": "allocation",
+    "blocks": "600",
+    "strategy": "first",
+    "ops": [
+      {
+        "kind": "alloc",
+        "name": "A",
+        "size": 150
+      },
+      {
+        "kind": "alloc",
+        "name": "B",
+        "size": 150
+      },
+      {
+        "kind": "alloc",
+        "name": "C",
+        "size": 150
+      },
+      {
+        "kind": "alloc",
+        "name": "D",
+        "size": 150
+      },
+      {
+        "kind": "free",
+        "name": "A"
+      },
+      {
+        "kind": "free",
+        "name": "C"
+      },
+      {
+        "kind": "alloc",
+        "name": "E",
+        "size": 250
+      }
+    ]
+  }
+}

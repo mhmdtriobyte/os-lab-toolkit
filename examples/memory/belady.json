@@ -1,0 +1,11 @@
+{
+  "id": "belady",
+  "title": "Belady's anomaly",
+  "description": "With FIFO, 4 frames give more faults (10) than 3 frames (9).",
+  "input": {
+    "tab": "paging",
+    "refs": "1 2 3 4 1 2 5 1 2 3 4 5",
+    "frames": 4,
+    "algorithm": "fifo"
+  }
+}

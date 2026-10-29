@@ -44,6 +44,9 @@ importers:
       '@oslab/sim-deadlock':
         specifier: workspace:*
         version: link:../../packages/sim-deadlock
+      '@oslab/sim-memory':
+        specifier: workspace:*
+        version: link:../../packages/sim-memory
       '@oslab/sim-scheduling':
         specifier: workspace:*
         version: link:../../packages/sim-scheduling
@@ -131,6 +134,19 @@ importers:
       '@xyflow/react':
         specifier: ^12.3.2
         version: 12.12.0(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.3.12
+        version: 18.3.31
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+
+  packages/sim-memory:
+    dependencies:
+      '@oslab/core':
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@types/react':
         specifier: ^18.3.12
