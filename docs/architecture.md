@@ -61,6 +61,10 @@ process that ran one statement), so long traces stay cheap.
   one successor per output is stored.
 - `encodeState / decodeState` - lz-string `compressToEncodedURIComponent` of the JSON module input.
 
+The React half of `@oslab/core` holds `StepPlayer`, `useSharedInput`, `ModuleHeader` (examples menu,
+share link, export/import JSON), `OutcomeList` (results of an exhaustive exploration), the theme and
+presentation-mode provider, and small primitives (`Panel`, `Button`, `Tabs`, `Alert`, `seriesColor`…).
+
 ## Shareable links and examples
 
 URLs look like `/fork#s=<lz-string>` or `/fork#ex=orphan`. `useSharedInput(moduleId, examples, fallback)`
