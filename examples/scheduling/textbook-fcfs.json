@@ -1,0 +1,28 @@
+{
+  "id": "textbook-fcfs",
+  "title": "Convoy effect (FCFS)",
+  "description": "P1=24, P2=3, P3=3 at time 0: average waiting 17. Compare with SJF.",
+  "input": {
+    "processes": [
+      {
+        "name": "P1",
+        "arrival": 0,
+        "burst": 24,
+        "priority": 1
+      },
+      {
+        "name": "P2",
+        "arrival": 0,
+        "burst": 3,
+        "priority": 1
+      },
+      {
+        "name": "P3",
+        "arrival": 0,
+        "burst": 3,
+        "priority": 1
+      }
+    ],
+    "algorithm": "fcfs"
+  }
+}

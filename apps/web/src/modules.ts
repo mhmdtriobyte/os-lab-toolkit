@@ -21,4 +21,13 @@ export const modules: ModuleEntry[] = [
     icon: '🌳',
     Component: lazy(() => import('@oslab/fork-visualizer').then((m) => ({ default: m.Module }))),
   },
+  {
+    id: 'scheduling',
+    title: 'CPU scheduling',
+    summary:
+      'FCFS, SJF, SRTF, Priority and Round Robin with an animated Gantt chart, ready queue, metrics and a compare mode.',
+    topics: ['Gantt chart', 'waiting time', 'turnaround', 'preemption', 'time quantum'],
+    icon: '📊',
+    Component: lazy(() => import('@oslab/sim-scheduling').then((m) => ({ default: m.Module }))),
+  },
 ];

@@ -1,0 +1,29 @@
+{
+  "id": "textbook-rr",
+  "title": "Round Robin, q = 4",
+  "description": "Same jobs as the convoy example; average waiting 5.67.",
+  "input": {
+    "processes": [
+      {
+        "name": "P1",
+        "arrival": 0,
+        "burst": 24,
+        "priority": 1
+      },
+      {
+        "name": "P2",
+        "arrival": 0,
+        "burst": 3,
+        "priority": 1
+      },
+      {
+        "name": "P3",
+        "arrival": 0,
+        "burst": 3,
+        "priority": 1
+      }
+    ],
+    "algorithm": "rr",
+    "quantum": 4
+  }
+}

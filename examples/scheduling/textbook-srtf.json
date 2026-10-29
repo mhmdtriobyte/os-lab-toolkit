@@ -1,0 +1,34 @@
+{
+  "id": "textbook-srtf",
+  "title": "SRTF with arrivals",
+  "description": "Preemptive SJF; average waiting 6.5.",
+  "input": {
+    "processes": [
+      {
+        "name": "P1",
+        "arrival": 0,
+        "burst": 8,
+        "priority": 1
+      },
+      {
+        "name": "P2",
+        "arrival": 1,
+        "burst": 4,
+        "priority": 1
+      },
+      {
+        "name": "P3",
+        "arrival": 2,
+        "burst": 9,
+        "priority": 1
+      },
+      {
+        "name": "P4",
+        "arrival": 3,
+        "burst": 5,
+        "priority": 1
+      }
+    ],
+    "algorithm": "srtf"
+  }
+}

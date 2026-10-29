@@ -1,0 +1,28 @@
+{
+  "id": "idle-gap",
+  "title": "Idle CPU",
+  "description": "A late arrival leaves the CPU idle; see utilization.",
+  "input": {
+    "processes": [
+      {
+        "name": "P1",
+        "arrival": 0,
+        "burst": 3,
+        "priority": 2
+      },
+      {
+        "name": "P2",
+        "arrival": 6,
+        "burst": 2,
+        "priority": 1
+      },
+      {
+        "name": "P3",
+        "arrival": 7,
+        "burst": 4,
+        "priority": 3
+      }
+    ],
+    "algorithm": "fcfs"
+  }
+}

@@ -1,22 +1,9 @@
+import { seriesColor } from '@oslab/core';
 import type { Process } from '../engine';
 
-/** Distinct colours for processes, assigned by pid order so they stay stable across steps. */
-const PALETTE = [
-  '#2563eb',
-  '#db2777',
-  '#059669',
-  '#d97706',
-  '#7c3aed',
-  '#0891b2',
-  '#dc2626',
-  '#65a30d',
-  '#c026d3',
-  '#4f46e5',
-];
-
+/** Process colours are assigned by pid order so they stay stable across steps. */
 export function pidColor(pid: number, pidStart: number): string {
-  const i = Math.max(0, pid - pidStart);
-  return PALETTE[i % PALETTE.length] as string;
+  return seriesColor(Math.max(0, pid - pidStart));
 }
 
 export type DisplayState = Process['state'] | 'running';

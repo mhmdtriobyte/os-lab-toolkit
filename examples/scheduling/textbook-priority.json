@@ -1,0 +1,40 @@
+{
+  "id": "textbook-priority",
+  "title": "Priority scheduling",
+  "description": "Lower number = higher priority; average waiting 8.2.",
+  "input": {
+    "processes": [
+      {
+        "name": "P1",
+        "arrival": 0,
+        "burst": 10,
+        "priority": 3
+      },
+      {
+        "name": "P2",
+        "arrival": 0,
+        "burst": 1,
+        "priority": 1
+      },
+      {
+        "name": "P3",
+        "arrival": 0,
+        "burst": 2,
+        "priority": 4
+      },
+      {
+        "name": "P4",
+        "arrival": 0,
+        "burst": 1,
+        "priority": 5
+      },
+      {
+        "name": "P5",
+        "arrival": 0,
+        "burst": 5,
+        "priority": 2
+      }
+    ],
+    "algorithm": "priority"
+  }
+}
