@@ -1,0 +1,29 @@
+{
+  "id": "banker-classic",
+  "title": "Banker: classic safe state",
+  "description": "Silberschatz example; safe sequence <P1, P3, P4, P0, P2>. Try P1 requesting (1,0,2).",
+  "input": {
+    "tab": "banker",
+    "banker": {
+      "processes": ["P0", "P1", "P2", "P3", "P4"],
+      "resources": ["A", "B", "C"],
+      "allocation": [
+        [0, 1, 0],
+        [2, 0, 0],
+        [3, 0, 2],
+        [2, 1, 1],
+        [0, 0, 2]
+      ],
+      "max": [
+        [7, 5, 3],
+        [3, 2, 2],
+        [9, 0, 2],
+        [2, 2, 2],
+        [4, 3, 3]
+      ],
+      "available": [3, 3, 2],
+      "requestProcess": 1,
+      "requestVector": [1, 0, 2]
+    }
+  }
+}

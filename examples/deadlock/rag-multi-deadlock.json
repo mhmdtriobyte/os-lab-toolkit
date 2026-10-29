@@ -1,0 +1,104 @@
+{
+  "id": "rag-multi-deadlock",
+  "title": "RAG: multi-instance deadlock",
+  "description": "Textbook figure: two cycles through R2 (2 instances); all three processes are stuck.",
+  "input": {
+    "tab": "rag",
+    "rag": {
+      "nodes": [
+        {
+          "id": "p1",
+          "kind": "process",
+          "name": "P1",
+          "instances": 0,
+          "x": 0,
+          "y": 120
+        },
+        {
+          "id": "p2",
+          "kind": "process",
+          "name": "P2",
+          "instances": 0,
+          "x": 220,
+          "y": 120
+        },
+        {
+          "id": "p3",
+          "kind": "process",
+          "name": "P3",
+          "instances": 0,
+          "x": 440,
+          "y": 120
+        },
+        {
+          "id": "r1",
+          "kind": "resource",
+          "name": "R1",
+          "instances": 1,
+          "x": 95,
+          "y": 0
+        },
+        {
+          "id": "r3",
+          "kind": "resource",
+          "name": "R3",
+          "instances": 1,
+          "x": 315,
+          "y": 0
+        },
+        {
+          "id": "r2",
+          "kind": "resource",
+          "name": "R2",
+          "instances": 2,
+          "x": 205,
+          "y": 260
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1",
+          "from": "p1",
+          "to": "r1",
+          "count": 1
+        },
+        {
+          "id": "e2",
+          "from": "r1",
+          "to": "p2",
+          "count": 1
+        },
+        {
+          "id": "e3",
+          "from": "p2",
+          "to": "r3",
+          "count": 1
+        },
+        {
+          "id": "e4",
+          "from": "r3",
+          "to": "p3",
+          "count": 1
+        },
+        {
+          "id": "e5",
+          "from": "p3",
+          "to": "r2",
+          "count": 1
+        },
+        {
+          "id": "e6",
+          "from": "r2",
+          "to": "p1",
+          "count": 1
+        },
+        {
+          "id": "e7",
+          "from": "r2",
+          "to": "p2",
+          "count": 1
+        }
+      ]
+    }
+  }
+}

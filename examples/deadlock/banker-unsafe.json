@@ -1,0 +1,17 @@
+{
+  "id": "banker-unsafe",
+  "title": "Banker: unsafe state (tape drives)",
+  "description": "12 tape drives; P2 holding 3 makes the state unsafe.",
+  "input": {
+    "tab": "banker",
+    "banker": {
+      "processes": ["P0", "P1", "P2"],
+      "resources": ["Tapes"],
+      "allocation": [[5], [2], [3]],
+      "max": [[10], [4], [9]],
+      "available": [2],
+      "requestProcess": 2,
+      "requestVector": [1]
+    }
+  }
+}

@@ -74,7 +74,7 @@ export function simulate(
         )
       : q;
 
-  let queue: number[] = [];
+  const queue: number[] = [];
   let running: number | null = null;
   let slice = 0;
   let nextArrival = 0;

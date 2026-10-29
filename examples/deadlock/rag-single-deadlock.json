@@ -1,0 +1,70 @@
+{
+  "id": "rag-single-deadlock",
+  "title": "RAG: single instances, deadlock",
+  "description": "Two processes each hold one resource and wait for the other.",
+  "input": {
+    "tab": "rag",
+    "rag": {
+      "nodes": [
+        {
+          "id": "p1",
+          "kind": "process",
+          "name": "P1",
+          "instances": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": "p2",
+          "kind": "process",
+          "name": "P2",
+          "instances": 0,
+          "x": 320,
+          "y": 0
+        },
+        {
+          "id": "r1",
+          "kind": "resource",
+          "name": "R1",
+          "instances": 1,
+          "x": 145,
+          "y": -140
+        },
+        {
+          "id": "r2",
+          "kind": "resource",
+          "name": "R2",
+          "instances": 1,
+          "x": 145,
+          "y": 140
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1",
+          "from": "r1",
+          "to": "p1",
+          "count": 1
+        },
+        {
+          "id": "e2",
+          "from": "p1",
+          "to": "r2",
+          "count": 1
+        },
+        {
+          "id": "e3",
+          "from": "r2",
+          "to": "p2",
+          "count": 1
+        },
+        {
+          "id": "e4",
+          "from": "p2",
+          "to": "r1",
+          "count": 1
+        }
+      ]
+    }
+  }
+}

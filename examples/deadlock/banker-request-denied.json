@@ -1,0 +1,29 @@
+{
+  "id": "banker-request-denied",
+  "title": "Banker: request denied (unsafe)",
+  "description": "After granting P1, P0 asks for (0,2,0): enough is available but the result is unsafe.",
+  "input": {
+    "tab": "banker",
+    "banker": {
+      "processes": ["P0", "P1", "P2", "P3", "P4"],
+      "resources": ["A", "B", "C"],
+      "allocation": [
+        [0, 1, 0],
+        [3, 0, 2],
+        [3, 0, 2],
+        [2, 1, 1],
+        [0, 0, 2]
+      ],
+      "max": [
+        [7, 5, 3],
+        [3, 2, 2],
+        [9, 0, 2],
+        [2, 2, 2],
+        [4, 3, 3]
+      ],
+      "available": [2, 3, 0],
+      "requestProcess": 0,
+      "requestVector": [0, 2, 0]
+    }
+  }
+}

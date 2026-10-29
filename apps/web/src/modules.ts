@@ -30,4 +30,13 @@ export const modules: ModuleEntry[] = [
     icon: '📊',
     Component: lazy(() => import('@oslab/sim-scheduling').then((m) => ({ default: m.Module }))),
   },
+  {
+    id: 'deadlock',
+    title: 'Deadlock',
+    summary:
+      "Draw resource allocation graphs, run the Banker's safety and request algorithms, and detect deadlocks step by step.",
+    topics: ['RAG', "Banker's algorithm", 'safe sequence', 'detection'],
+    icon: '🔒',
+    Component: lazy(() => import('@oslab/sim-deadlock').then((m) => ({ default: m.Module }))),
+  },
 ];

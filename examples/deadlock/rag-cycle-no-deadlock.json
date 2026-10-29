@@ -1,0 +1,98 @@
+{
+  "id": "rag-cycle-no-deadlock",
+  "title": "RAG: cycle without deadlock",
+  "description": "Textbook figure: R1 and R2 have 2 instances; P2 and P4 can release them.",
+  "input": {
+    "tab": "rag",
+    "rag": {
+      "nodes": [
+        {
+          "id": "p1",
+          "kind": "process",
+          "name": "P1",
+          "instances": 0,
+          "x": 0,
+          "y": 120
+        },
+        {
+          "id": "p2",
+          "kind": "process",
+          "name": "P2",
+          "instances": 0,
+          "x": 220,
+          "y": -60
+        },
+        {
+          "id": "p3",
+          "kind": "process",
+          "name": "P3",
+          "instances": 0,
+          "x": 440,
+          "y": 120
+        },
+        {
+          "id": "p4",
+          "kind": "process",
+          "name": "P4",
+          "instances": 0,
+          "x": 220,
+          "y": 300
+        },
+        {
+          "id": "r1",
+          "kind": "resource",
+          "name": "R1",
+          "instances": 2,
+          "x": 205,
+          "y": 60
+        },
+        {
+          "id": "r2",
+          "kind": "resource",
+          "name": "R2",
+          "instances": 2,
+          "x": 205,
+          "y": 190
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1",
+          "from": "p1",
+          "to": "r1",
+          "count": 1
+        },
+        {
+          "id": "e2",
+          "from": "r1",
+          "to": "p2",
+          "count": 1
+        },
+        {
+          "id": "e3",
+          "from": "r1",
+          "to": "p3",
+          "count": 1
+        },
+        {
+          "id": "e4",
+          "from": "p3",
+          "to": "r2",
+          "count": 1
+        },
+        {
+          "id": "e5",
+          "from": "r2",
+          "to": "p1",
+          "count": 1
+        },
+        {
+          "id": "e6",
+          "from": "r2",
+          "to": "p4",
+          "count": 1
+        }
+      ]
+    }
+  }
+}
