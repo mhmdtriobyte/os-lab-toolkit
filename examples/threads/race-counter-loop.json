@@ -1,0 +1,9 @@
+{
+  "id": "race-counter-loop",
+  "title": "Race condition: counter++ twice each",
+  "description": "Possible final values range from 2 to 4.",
+  "input": {
+    "code": "# Each thread does counter++ twice. Which final values are possible?\nshared counter = 0\n\nthread A\n  MOV i, 2\nloop:\n  LOAD r, counter\n  ADD r, 1\n  STORE counter, r\n  SUB i, 1\n  JNZ i, loop\n\nthread B\n  MOV i, 2\nloop:\n  LOAD r, counter\n  ADD r, 1\n  STORE counter, r\n  SUB i, 1\n  JNZ i, loop\n",
+    "mode": "exhaustive"
+  }
+}

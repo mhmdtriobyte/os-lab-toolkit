@@ -1,0 +1,9 @@
+{
+  "id": "mutex-counter",
+  "title": "Mutex fixes the race",
+  "description": "With lock/unlock the counter is always 2.",
+  "input": {
+    "code": "# The same counter++, protected by a mutex: the result is always 2.\nshared counter = 0\nmutex m\n\nthread A\n  LOCK m\n  LOAD r, counter\n  ADD r, 1\n  STORE counter, r\n  UNLOCK m\n\nthread B\n  LOCK m\n  LOAD r, counter\n  ADD r, 1\n  STORE counter, r\n  UNLOCK m\n",
+    "mode": "exhaustive"
+  }
+}

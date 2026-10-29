@@ -3,6 +3,7 @@ import {
   Button,
   Field,
   ModuleHeader,
+  OutcomeList,
   NumberInput,
   Panel,
   Select,
@@ -35,7 +36,6 @@ import {
 } from '../engine';
 import { CodeEditor, type LineMark } from './CodeEditor';
 import { pidColor } from './colors';
-import { ExhaustivePanel } from './ExhaustivePanel';
 import { DEFAULT_INPUT, sanitizeInput, type ForkInput, type Mode } from './input';
 import { OutputPanel } from './OutputPanel';
 import { ProcessTree } from './ProcessTree';
@@ -374,7 +374,7 @@ export function ForkModule({ examples }: ModuleProps) {
             </Panel>
             {input.mode === 'exhaustive' && results && (
               <Panel title="Possible outputs">
-                <ExhaustivePanel
+                <OutcomeList
                   result={results.result}
                   selected={results.selected}
                   onSelect={(i) => showOutcome(results.result, i)}

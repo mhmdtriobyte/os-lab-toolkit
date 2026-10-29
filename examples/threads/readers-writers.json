@@ -1,0 +1,9 @@
+{
+  "id": "readers-writers",
+  "title": "Readers-writers",
+  "description": "Readers can overlap; the writer is exclusive.",
+  "input": {
+    "code": "# First readers-writers problem: readers share, the writer is exclusive.\nshared readcount = 0\nshared data = 0\nmutex mx\nsemaphore wrt = 1\n\nthread Reader1\n  LOCK mx\n  LOAD r, readcount\n  ADD r, 1\n  STORE readcount, r\n  SUB r, 1              ; r == 0 means this is the first reader\n  JNZ r, enter\n  WAIT wrt              ; the first reader locks out writers\nenter:\n  UNLOCK mx\n  PRINT R1 reads\n  LOCK mx\n  LOAD r, readcount\n  SUB r, 1\n  STORE readcount, r\n  JNZ r, leave\n  SIGNAL wrt            ; the last reader lets writers in\nleave:\n  UNLOCK mx\n\nthread Reader2\n  LOCK mx\n  LOAD r, readcount\n  ADD r, 1\n  STORE readcount, r\n  SUB r, 1\n  JNZ r, enter\n  WAIT wrt\nenter:\n  UNLOCK mx\n  PRINT R2 reads\n  LOCK mx\n  LOAD r, readcount\n  SUB r, 1\n  STORE readcount, r\n  JNZ r, leave\n  SIGNAL wrt\nleave:\n  UNLOCK mx\n\nthread Writer\n  WAIT wrt\n  PRINT W writes\n  LOAD r, data\n  ADD r, 1\n  STORE data, r\n  SIGNAL wrt\n",
+    "mode": "exhaustive"
+  }
+}

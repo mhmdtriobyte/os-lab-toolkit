@@ -1,0 +1,9 @@
+{
+  "id": "producer-consumer",
+  "title": "Producer-consumer (bounded buffer)",
+  "description": "Semaphores empty/full and a mutex; buffer of 2 slots.",
+  "input": {
+    "code": "# Bounded buffer with 2 slots: 3 items are produced and consumed.\n# count never goes above 2 or below 0, in any interleaving.\nshared count = 0\nsemaphore empty = 2\nsemaphore full = 0\nmutex m\n\nthread Producer\n  MOV i, 3\nloop:\n  WAIT empty\n  LOCK m\n  LOAD r, count\n  ADD r, 1\n  STORE count, r\n  PRINT produced\n  UNLOCK m\n  SIGNAL full\n  SUB i, 1\n  JNZ i, loop\n\nthread Consumer\n  MOV i, 3\nloop:\n  WAIT full\n  LOCK m\n  LOAD r, count\n  SUB r, 1\n  STORE count, r\n  PRINT consumed\n  UNLOCK m\n  SIGNAL empty\n  SUB i, 1\n  JNZ i, loop\n",
+    "mode": "random"
+  }
+}

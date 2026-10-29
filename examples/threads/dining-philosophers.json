@@ -1,0 +1,9 @@
+{
+  "id": "dining-philosophers",
+  "title": "Dining philosophers (deadlock)",
+  "description": "Each philosopher takes the left fork first; explore to find the deadlock.",
+  "input": {
+    "code": "# Three philosophers, three forks (mutexes).\n# Everyone takes the left fork first: a circular wait (deadlock) is possible.\nmutex f0\nmutex f1\nmutex f2\n\nthread Phil0\n  LOCK f0\n  LOCK f1\n  PRINT Phil0 eats\n  UNLOCK f1\n  UNLOCK f0\n\nthread Phil1\n  LOCK f1\n  LOCK f2\n  PRINT Phil1 eats\n  UNLOCK f2\n  UNLOCK f1\n\nthread Phil2\n  LOCK f2\n  LOCK f0\n  PRINT Phil2 eats\n  UNLOCK f0\n  UNLOCK f2\n",
+    "mode": "exhaustive"
+  }
+}

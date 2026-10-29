@@ -39,4 +39,13 @@ export const modules: ModuleEntry[] = [
     icon: '🔒',
     Component: lazy(() => import('@oslab/sim-deadlock').then((m) => ({ default: m.Module }))),
   },
+  {
+    id: 'threads',
+    title: 'Threads',
+    summary:
+      'Race conditions, mutexes, semaphores and condition variables. Explore every interleaving or be the scheduler.',
+    topics: ['race condition', 'mutex', 'semaphore', 'producer-consumer', 'dining philosophers'],
+    icon: '🧵',
+    Component: lazy(() => import('@oslab/sim-threads').then((m) => ({ default: m.Module }))),
+  },
 ];

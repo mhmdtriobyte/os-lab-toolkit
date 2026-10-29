@@ -1,0 +1,9 @@
+{
+  "id": "condition-variable",
+  "title": "Condition variable",
+  "description": "cond_wait releases the mutex while waiting.",
+  "input": {
+    "code": "# Waiting for a flag with a condition variable (always re-check in a loop).\nshared ready = 0\nmutex m\ncondition c\n\nthread Waiter\n  LOCK m\ncheck:\n  LOAD r, ready\n  JNZ r, go\n  CWAIT c, m\n  JMP check\ngo:\n  PRINT waiter proceeds\n  UNLOCK m\n\nthread Setter\n  LOCK m\n  STORE ready, 1\n  CSIGNAL c\n  UNLOCK m\n",
+    "mode": "exhaustive"
+  }
+}

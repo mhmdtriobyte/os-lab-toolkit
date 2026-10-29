@@ -6,3 +6,4 @@ export * from './ui/useSharedInput';
 export * from './ui/ModuleHeader';
 export * from './ui/module';
 export * from './ui/colors';
+export * from './ui/OutcomeList';

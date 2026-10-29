@@ -1,13 +1,14 @@
-import { Alert, Button, cx } from '@oslab/core';
-import type { ExploreResult } from '@oslab/core';
+import type { ExploreResult } from '../engine';
+import { Alert, Button, cx } from './primitives';
 
-export function ExhaustivePanel({
+/** Results of an exhaustive exploration: each distinct outcome, its count, and a trace button. */
+export function OutcomeList<C>({
   result,
   selected,
   onSelect,
   maxStates,
 }: {
-  result: ExploreResult<number>;
+  result: ExploreResult<C>;
   selected: number | null;
   onSelect: (index: number) => void;
   maxStates: number;

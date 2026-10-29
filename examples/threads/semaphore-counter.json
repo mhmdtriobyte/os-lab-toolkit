@@ -1,0 +1,9 @@
+{
+  "id": "semaphore-counter",
+  "title": "Binary semaphore as a lock",
+  "description": "sem_wait / sem_post around the critical section.",
+  "input": {
+    "code": "# A binary semaphore (initial value 1) used as a lock.\nshared counter = 0\nsemaphore s = 1\n\nthread A\n  WAIT s\n  LOAD r, counter\n  ADD r, 1\n  STORE counter, r\n  SIGNAL s\n\nthread B\n  WAIT s\n  LOAD r, counter\n  ADD r, 1\n  STORE counter, r\n  SIGNAL s\n",
+    "mode": "exhaustive"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "dining-philosophers-fixed",
+  "title": "Dining philosophers (fixed)",
+  "description": "Resource ordering breaks the circular wait: no deadlock.",
+  "input": {
+    "code": "# Fixed: the last philosopher picks up the forks in the opposite order,\n# so a circular wait is impossible.\nmutex f0\nmutex f1\nmutex f2\n\nthread Phil0\n  LOCK f0\n  LOCK f1\n  PRINT Phil0 eats\n  UNLOCK f1\n  UNLOCK f0\n\nthread Phil1\n  LOCK f1\n  LOCK f2\n  PRINT Phil1 eats\n  UNLOCK f2\n  UNLOCK f1\n\nthread Phil2\n  LOCK f0\n  LOCK f2\n  PRINT Phil2 eats\n  UNLOCK f2\n  UNLOCK f0\n",
+    "mode": "exhaustive"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "race-counter",
+  "title": "Race condition: counter++",
+  "description": "Two threads increment without a lock; the lost update gives 1.",
+  "input": {
+    "code": "# counter++ is really three instructions: load, add, store.\nshared counter = 0\n\nthread A\n  LOAD r, counter\n  ADD r, 1\n  STORE counter, r\n\nthread B\n  LOAD r, counter\n  ADD r, 1\n  STORE counter, r\n",
+    "mode": "exhaustive"
+  }
+}
