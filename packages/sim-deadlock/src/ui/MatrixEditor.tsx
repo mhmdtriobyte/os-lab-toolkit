@@ -19,7 +19,7 @@ export function MatrixEditor({
   const set = (i: number, j: number, v: number) =>
     onChange?.(values.map((row, r) => row.map((x, c) => (r === i && c === j ? v : x))));
   return (
-    <div className="min-w-0 overflow-auto">
+    <div className="relative min-w-0 overflow-auto">
       <table className={cx(tableClass, 'w-auto tabular-nums')}>
         <caption className="pb-1 text-left text-sm font-semibold">{caption}</caption>
         <thead>

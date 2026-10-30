@@ -11,6 +11,7 @@ import {
   Tabs,
   Toggle,
   useSharedInput,
+  useWorkerJob,
   type ExploreResult,
   type ModuleProps,
 } from '@oslab/core';
@@ -19,7 +20,6 @@ import {
   CError,
   clockStep,
   compile,
-  exploreAll,
   initialStep,
   killStep,
   nextLine,
@@ -36,6 +36,7 @@ import {
 } from '../engine';
 import { CodeEditor, type LineMark } from './CodeEditor';
 import { pidColor } from './colors';
+import type { ExploreRequest } from './explore.worker';
 import { DEFAULT_INPUT, sanitizeInput, type ForkInput, type Mode } from './input';
 import { OutputPanel } from './OutputPanel';
 import { ProcessTree } from './ProcessTree';
@@ -65,6 +66,10 @@ function withClockTicks(steps: ForkStep[], config: VmConfig): ForkStep[] {
   )
     out.push(t);
   return out;
+}
+
+function createExploreWorker() {
+  return new Worker(new URL('./explore.worker.ts', import.meta.url), { type: 'module' });
 }
 
 export function ForkModule({ examples }: ModuleProps) {
@@ -119,7 +124,7 @@ export function ForkModule({ examples }: ModuleProps) {
     result: ExploreResult<number>;
     selected: number | null;
   } | null>(null);
-  const [exploring, setExploring] = useState(false);
+  const explorer = useWorkerJob<ExploreRequest, ExploreResult<number>>(createExploreWorker);
   const results = explored && explored.key === traceKey ? explored : null;
 
   const showOutcome = (result: ExploreResult<number>, i: number) => {
@@ -131,14 +136,10 @@ export function ForkModule({ examples }: ModuleProps) {
 
   const runExplorer = () => {
     if (!program) return;
-    setExploring(true);
-    // Let React paint the "exploring" state before the (synchronous) search starts.
-    window.setTimeout(() => {
-      const result = exploreAll(program, config, input.maxStates);
-      setExploring(false);
+    explorer.run({ program, config, maxStates: input.maxStates }, (result) => {
       if (result.outcomes.length > 0) showOutcome(result, 0);
       else setExplored({ key: traceKey, result, selected: null });
-    }, 30);
+    });
   };
 
   const prefix = () => steps.slice(0, index + 1);
@@ -297,14 +298,18 @@ export function ForkModule({ examples }: ModuleProps) {
                     <Button
                       variant="primary"
                       onClick={runExplorer}
-                      disabled={!program || exploring}
+                      disabled={!program || explorer.running}
                     >
-                      {exploring ? 'Exploring…' : 'Explore all interleavings'}
+                      {explorer.running ? 'Exploring…' : 'Explore all interleavings'}
                     </Button>
+                    {explorer.running && <Button onClick={explorer.cancel}>Cancel</Button>}
                     <span className="text-xs text-slate-600 dark:text-slate-400">
                       One step = one statement; printf is atomic.
                     </span>
                   </div>
+                )}
+                {explorer.error && input.mode === 'exhaustive' && (
+                  <Alert tone="error">{explorer.error}</Alert>
                 )}
                 {deterministic?.truncated && input.mode === 'deterministic' && (
                   <Alert tone="warning">

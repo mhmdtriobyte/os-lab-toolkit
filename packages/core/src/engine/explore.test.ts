@@ -25,6 +25,7 @@ describe('explore', () => {
       ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa'].sort(),
     );
     expect(r.truncated).toBe(false);
+    expect(r.outcomesCapped).toBe(false);
     expect(r.statesExplored).toBe(9);
   });
 
@@ -66,5 +67,12 @@ describe('explore', () => {
     const r = explore({ ...spec, maxStates: 3 });
     expect(r.truncated).toBe(true);
     expect(r.outcomes.some((o) => o.kind === 'truncated')).toBe(true);
+  });
+
+  it('keeps at most maxOutcomes distinct outputs, each still reachable', () => {
+    const r = explore({ ...spec, maxOutcomes: 2 });
+    expect(r.outcomesCapped).toBe(true);
+    expect(r.outcomes.length).toBeLessThanOrEqual(2);
+    for (const o of r.outcomes) expect(o.path.join('')).toBe(o.output);
   });
 });

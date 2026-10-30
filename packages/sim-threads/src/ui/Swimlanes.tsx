@@ -19,7 +19,7 @@ export function Swimlanes({
   const to = Math.min(steps.length, index + WINDOW + 1);
   const columns = steps.slice(from, to).map((s, k) => ({ step: s, i: from + k }));
   return (
-    <div className="overflow-x-auto">
+    <div className="relative overflow-x-auto">
       <table className="border-separate border-spacing-0.5 text-xs">
         <thead>
           <tr>

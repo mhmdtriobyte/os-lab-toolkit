@@ -35,9 +35,14 @@ import { GanttChart, procColor } from './GanttChart';
 import { DEFAULT_INPUT, sanitizeInput, type SchedInput } from './input';
 import { ProcessTableEditor } from './ProcessTableEditor';
 
-const fmt = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(2));
+/** Averages always get two decimals, so a column of them lines up. */
+const fmt = (n: number) => n.toFixed(2);
 const fmtMetric = (key: keyof Metrics, n: number) =>
-  key === 'utilization' ? `${(n * 100).toFixed(1)}%` : fmt(n);
+  key === 'utilization'
+    ? `${(n * 100).toFixed(1)}%`
+    : key === 'contextSwitches'
+      ? String(n)
+      : fmt(n);
 
 function ProcChip({ index, processes }: { index: number; processes: readonly ProcessSpec[] }) {
   return (
@@ -92,7 +97,7 @@ function TickView({ tick, processes }: { tick: Tick; processes: readonly Process
 function ResultsTable({ result }: { result: ScheduleResult }) {
   const m = result.metrics;
   return (
-    <div className="overflow-auto">
+    <div className="relative overflow-auto">
       <table className={tableClass}>
         <thead>
           <tr>
@@ -143,7 +148,7 @@ function CompareView({ rows, processes }: { rows: ComparisonRow[]; processes: Pr
   return (
     <div className="flex flex-col gap-4">
       <Panel title="Metrics side by side (winner per metric highlighted)">
-        <div className="overflow-auto">
+        <div className="relative overflow-auto">
           <table className={tableClass}>
             <thead>
               <tr>

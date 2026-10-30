@@ -36,5 +36,6 @@ describe('memory presets', () => {
     expect(r.failed).toEqual(['E']);
     expect(r.freeTotal).toBe(300);
     expect(r.largestHole).toBe(150);
+    expect(r.fragmented).toBe(true);
   });
 });

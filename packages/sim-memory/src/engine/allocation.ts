@@ -41,6 +41,8 @@ export interface AllocResult {
   failed: string[];
   freeTotal: number;
   largestHole: number;
+  /** Some request failed although enough memory was free in total (external fragmentation). */
+  fragmented: boolean;
 }
 
 /** Lays the blocks out one after another, each starting as a single hole. */
@@ -80,6 +82,10 @@ function coalesce(segments: Segment[]): Segment[] {
   return out;
 }
 
+function freeTotal(segments: readonly Segment[]): number {
+  return segments.reduce((sum, s) => sum + (s.owner === null ? s.size : 0), 0);
+}
+
 export function simulateAllocation(
   blocks: readonly number[],
   ops: readonly MemoryOp[],
@@ -93,12 +99,16 @@ export function simulateAllocation(
       const i = pickHole(segments, op.size, strategy);
       if (i < 0) {
         failed.push(op.name);
+        const free = freeTotal(segments);
         steps.push({
           op,
           segments,
           changed: null,
           ok: false,
-          note: `${op.name} (${op.size}) must wait: no hole is large enough.`,
+          note:
+            free >= op.size
+              ? `${op.name} (${op.size}) must wait: ${free} units are free in total, but no single hole is large enough (external fragmentation).`
+              : `${op.name} (${op.size}) must wait: only ${free} units are free.`,
         });
         continue;
       }
@@ -149,7 +159,10 @@ export function simulateAllocation(
   return {
     steps,
     failed,
-    freeTotal: holes.reduce((a, b) => a + b, 0),
+    freeTotal: freeTotal(segments),
     largestHole: Math.max(0, ...holes),
+    fragmented: steps.some(
+      (s) => !s.ok && s.op.kind === 'alloc' && freeTotal(s.segments) >= s.op.size,
+    ),
   };
 }

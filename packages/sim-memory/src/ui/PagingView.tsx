@@ -34,7 +34,7 @@ function FrameTable({
   frames: number;
 }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="relative overflow-x-auto">
       <table className="border-collapse text-center font-mono text-sm tabular-nums">
         <thead>
           <tr>
@@ -104,6 +104,31 @@ function FrameTable({
   );
 }
 
+/** One bar with its fault count printed on top. */
+function Bar({
+  faults,
+  top,
+  className,
+  title,
+}: {
+  faults: number;
+  top: number;
+  className: string;
+  title: string;
+}) {
+  return (
+    <div
+      className={cx('relative w-1/2 rounded-t', className)}
+      style={{ height: `${(faults / top) * 100}%` }}
+      title={title}
+    >
+      <span className="absolute inset-x-0 -top-4 text-center text-[11px] font-semibold tabular-nums text-slate-700 dark:text-slate-200">
+        {faults}
+      </span>
+    </div>
+  );
+}
+
 function BeladyChart({ refs }: { refs: number[] }) {
   const maxFrames = Math.min(10, new Set(refs).size + 1);
   const fifo = beladyCurve(refs, maxFrames, 'fifo');
@@ -113,21 +138,23 @@ function BeladyChart({ refs }: { refs: number[] }) {
   return (
     <div className="flex flex-col gap-3">
       <div
-        className="flex h-44 max-w-2xl items-end gap-3"
+        className="flex h-48 max-w-2xl items-end gap-3"
         role="img"
         aria-label="Page faults by number of frames for FIFO and LRU"
       >
         {fifo.map((p, i) => (
           <div key={p.frames} className="flex flex-1 flex-col items-center gap-1">
             <div className="flex h-36 w-full items-end justify-center gap-0.5">
-              <div
-                className={cx('w-1/2 rounded-t', p.anomaly ? 'bg-rose-500' : 'bg-indigo-500')}
-                style={{ height: `${(p.faults / top) * 100}%` }}
+              <Bar
+                faults={p.faults}
+                top={top}
+                className={p.anomaly ? 'bg-rose-500' : 'bg-indigo-500'}
                 title={`FIFO, ${p.frames} frames: ${p.faults} faults`}
               />
-              <div
-                className="w-1/2 rounded-t bg-emerald-500"
-                style={{ height: `${((lru[i]?.faults ?? 0) / top) * 100}%` }}
+              <Bar
+                faults={lru[i]?.faults ?? 0}
+                top={top}
+                className="bg-emerald-500"
                 title={`LRU, ${p.frames} frames: ${lru[i]?.faults} faults`}
               />
             </div>

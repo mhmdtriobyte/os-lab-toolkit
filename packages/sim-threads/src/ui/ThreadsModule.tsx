@@ -12,6 +12,7 @@ import {
   StepPlayer,
   Tabs,
   useSharedInput,
+  useWorkerJob,
   type ExploreResult,
   type ModuleProps,
 } from '@oslab/core';
@@ -21,13 +22,13 @@ import {
   AsmError,
   assemble,
   enabled,
-  exploreThreads,
   replayThreads,
   runRandom,
   startStep,
   type ThreadsProgram,
   type ThreadStep,
 } from '../engine';
+import type { ExploreRequest } from './explore.worker';
 import { DEFAULT_INPUT, sanitizeInput, type ThreadMode, type ThreadsInput } from './input';
 import { SharedState } from './SharedState';
 import { Swimlanes } from './Swimlanes';
@@ -69,6 +70,10 @@ function SyntaxHelp() {
       </p>
     </details>
   );
+}
+
+function createExploreWorker() {
+  return new Worker(new URL('./explore.worker.ts', import.meta.url), { type: 'module' });
 }
 
 export function ThreadsModule({ examples }: ModuleProps) {
@@ -113,7 +118,7 @@ export function ThreadsModule({ examples }: ModuleProps) {
     result: ExploreResult<number>;
     selected: number | null;
   } | null>(null);
-  const [exploring, setExploring] = useState(false);
+  const explorer = useWorkerJob<ExploreRequest, ExploreResult<number>>(createExploreWorker);
   const results = explored && explored.key === traceKey ? explored : null;
 
   const showOutcome = (result: ExploreResult<number>, i: number) => {
@@ -125,12 +130,10 @@ export function ThreadsModule({ examples }: ModuleProps) {
 
   const runExplorer = () => {
     if (!program) return;
-    setExploring(true);
-    window.setTimeout(() => {
-      const result = exploreThreads(program, input.maxStates);
-      setExploring(false);
+    explorer.run({ program, maxStates: input.maxStates }, (result) => {
       if (result.outcomes.length > 0) showOutcome(result, 0);
-    }, 30);
+      else setExplored({ key: traceKey, result, selected: null });
+    });
   };
 
   const choose = (t: number) => {
@@ -216,9 +219,15 @@ export function ThreadsModule({ examples }: ModuleProps) {
                       className="w-28"
                     />
                   </Field>
-                  <Button variant="primary" onClick={runExplorer} disabled={!program || exploring}>
-                    {exploring ? 'Exploring…' : 'Explore all interleavings'}
+                  <Button
+                    variant="primary"
+                    onClick={runExplorer}
+                    disabled={!program || explorer.running}
+                  >
+                    {explorer.running ? 'Exploring…' : 'Explore all interleavings'}
                   </Button>
+                  {explorer.running && <Button onClick={explorer.cancel}>Cancel</Button>}
+                  {explorer.error && <Alert tone="error">{explorer.error}</Alert>}
                 </div>
               )}
               {input.mode === 'manual' && current && (
@@ -268,7 +277,7 @@ export function ThreadsModule({ examples }: ModuleProps) {
                 </Alert>
               )}
               <Panel title="Threads">
-                <div className="overflow-x-auto">
+                <div className="relative overflow-x-auto">
                   <ThreadColumns program={program} snap={current.state} />
                 </div>
               </Panel>

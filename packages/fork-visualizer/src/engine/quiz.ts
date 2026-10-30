@@ -23,7 +23,8 @@ export interface Quiz {
   explanation: string;
 }
 
-const HEADER = '#include <stdio.h>\n#include <unistd.h>\n#include <sys/wait.h>\n\nint main() {\n';
+const HEADER =
+  '#include <stdio.h>\n#include <stdlib.h>\n#include <unistd.h>\n#include <sys/wait.h>\n\nint main() {\n';
 const MAX_PROCESSES = 32;
 
 function indent(lines: string[], level: number): string[] {

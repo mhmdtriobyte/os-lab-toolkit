@@ -1,14 +1,13 @@
 # OS Lab Toolkit
 
-**Open source teaching tools for operating systems courses.** Paste C code that calls `fork()` and
+**Open source teaching tools for operating systems courses.** Live at
+**[ostoolkit.triobyte.tech](https://ostoolkit.triobyte.tech)**. Paste C code that calls `fork()` and
 watch the process tree grow, step through CPU schedulers, run the Banker's algorithm, and hunt race
 conditions and deadlocks. Everything is simulated in the browser: no install, no server, no VM, and it
 keeps working offline once loaded.
 
 Built for an Operating Systems lab course (Linux commands, C, process creation, scheduling, deadlock,
 threads and memory), and neutral enough for any university to use or fork.
-
-![Home page](docs/screenshots/home.png)
 
 ## Modules
 
@@ -19,8 +18,6 @@ threads and memory), and neutral enough for any university to use or fork.
 | **Deadlock**        | Banker's algorithm (Need, step-by-step safety algorithm with Work/Finish, resource-request algorithm), multi-instance deadlock detection, and a drag-and-drop **resource allocation graph** editor that detects cycles and only reports a deadlock when graph reduction confirms it.                                                                     |
 | **Threads**         | A tiny atomic instruction set shown as pseudo-code. Race conditions (`counter++` losing updates), mutexes, semaphores, condition variables, producer-consumer, readers-writers and dining philosophers. Random, manual or exhaustive scheduling, with swimlanes and blocked markers.                                                                     |
 | **Memory**          | Page replacement with FIFO, LRU, Optimal and Clock (frame table, faults, hit ratio, reference bits and hand), a **Belady's anomaly** chart, and first / best / worst fit allocation with frees, hole merging and external fragmentation.                                                                                                                 |
-
-![Fork visualizer](docs/screenshots/fork.png)
 
 ## Use it in class
 

@@ -13,10 +13,13 @@ export function OutcomeList<C>({
   onSelect: (index: number) => void;
   maxStates: number;
 }) {
+  const incomplete = result.truncated || result.outcomesCapped;
   return (
     <div className="flex flex-col gap-2">
       <p className="text-sm text-slate-700 dark:text-slate-200">
+        {incomplete && 'At least '}
         <strong>{result.outcomes.length}</strong> distinct output(s) from{' '}
+        {incomplete && 'at least '}
         <strong>{result.totalInterleavings.toLocaleString()}</strong> interleavings (
         {result.statesExplored.toLocaleString()} distinct states).
       </p>
@@ -24,6 +27,12 @@ export function OutcomeList<C>({
         <Alert tone="warning">
           Stopped after {maxStates.toLocaleString()} states: the results below are incomplete. Raise
           the state cap or simplify the program.
+        </Alert>
+      )}
+      {result.outcomesCapped && (
+        <Alert tone="warning">
+          This program has too many possible outputs to list them all; only some are shown. The
+          order of lines (and which PIDs print them) can vary a lot.
         </Alert>
       )}
       <ol className="flex max-h-[28rem] flex-col gap-2 overflow-auto">

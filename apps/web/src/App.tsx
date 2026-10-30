@@ -12,7 +12,7 @@ const toolbarButton =
 function Header() {
   const { theme, setTheme, presentation, setPresentation } = useTheme();
   return (
-    <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90">
+    <header className="z-20 border-b md:sticky md:top-0 border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90">
       <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-4 gap-y-2 px-4 py-2">
         <Link to="/" className="flex items-center gap-2 font-bold text-slate-900 dark:text-white">
           <img src="/favicon.svg" alt="" className="h-7 w-7" />
@@ -56,11 +56,17 @@ function Header() {
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
           >
             <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
-            {theme === 'dark' ? 'Light' : 'Dark'}
+            <span className="hidden sm:inline">{theme === 'dark' ? 'Light' : 'Dark'}</span>
           </button>
-          <a href={REPO_URL} target="_blank" rel="noreferrer" className={toolbarButton}>
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            className={toolbarButton}
+            aria-label="Source code on GitHub"
+          >
             <Icon name="github" />
-            GitHub
+            <span className="hidden sm:inline">GitHub</span>
           </a>
         </div>
       </div>

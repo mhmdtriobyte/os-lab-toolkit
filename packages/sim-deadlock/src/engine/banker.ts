@@ -60,7 +60,7 @@ export function safety(state: BankerState): SafetyResult {
     safe,
     need,
     summary: safe
-      ? `SAFE: every process can finish in the order <${names(result.sequence)}>.`
+      ? `SAFE: every process can finish in the order <${names(result.sequence)}> (other safe orders may also exist).`
       : `UNSAFE: ${names(result.stuck)} can never be sure to get their maximum claim${result.sequence.length ? ` (only ${names(result.sequence)} can finish)` : ''}. The system might deadlock.`,
   };
 }

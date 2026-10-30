@@ -79,71 +79,73 @@ function OpsEditor({ ops, onChange }: { ops: MemoryOp[]; onChange: (ops: MemoryO
   const set = (i: number, op: MemoryOp) => onChange(ops.map((o, j) => (j === i ? op : o)));
   return (
     <div className="flex flex-col gap-2">
-      <table className={cx(tableClass, 'w-auto')}>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Action</th>
-            <th>Process</th>
-            <th>Size</th>
-            <th className="sr-only">Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ops.map((op, i) => (
-            <tr key={i}>
-              <td className="tabular-nums">{i + 1}</td>
-              <td>
-                <Select
-                  aria-label={`Action ${i + 1}`}
-                  value={op.kind}
-                  onChange={(e) =>
-                    set(
-                      i,
-                      e.target.value === 'free'
-                        ? { kind: 'free', name: op.name }
-                        : { kind: 'alloc', name: op.name, size: 100 },
-                    )
-                  }
-                >
-                  <option value="alloc">allocate</option>
-                  <option value="free">free</option>
-                </Select>
-              </td>
-              <td>
-                <TextInput
-                  aria-label={`Process ${i + 1}`}
-                  value={op.name}
-                  maxLength={12}
-                  onChange={(e) => set(i, { ...op, name: e.target.value })}
-                  className="w-20"
-                />
-              </td>
-              <td>
-                {op.kind === 'alloc' && (
-                  <NumberInput
-                    aria-label={`Size ${i + 1}`}
-                    value={op.size}
-                    min={1}
-                    max={9999999}
-                    onValueChange={(size) => set(i, { ...op, size })}
-                    className="w-24"
-                  />
-                )}
-              </td>
-              <td>
-                <Button
-                  variant="ghost"
-                  aria-label={`Remove action ${i + 1}`}
-                  onClick={() => onChange(ops.filter((_, j) => j !== i))}
-                >
-                  <Icon name="close" />
-                </Button>
-              </td>
+      <div className="relative overflow-x-auto">
+        <table className={cx(tableClass, 'w-auto')}>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Action</th>
+              <th>Process</th>
+              <th>Size</th>
+              <th className="sr-only">Remove</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {ops.map((op, i) => (
+              <tr key={i}>
+                <td className="tabular-nums">{i + 1}</td>
+                <td>
+                  <Select
+                    aria-label={`Action ${i + 1}`}
+                    value={op.kind}
+                    onChange={(e) =>
+                      set(
+                        i,
+                        e.target.value === 'free'
+                          ? { kind: 'free', name: op.name }
+                          : { kind: 'alloc', name: op.name, size: 100 },
+                      )
+                    }
+                  >
+                    <option value="alloc">allocate</option>
+                    <option value="free">free</option>
+                  </Select>
+                </td>
+                <td>
+                  <TextInput
+                    aria-label={`Process ${i + 1}`}
+                    value={op.name}
+                    maxLength={12}
+                    onChange={(e) => set(i, { ...op, name: e.target.value })}
+                    className="w-20"
+                  />
+                </td>
+                <td>
+                  {op.kind === 'alloc' && (
+                    <NumberInput
+                      aria-label={`Size ${i + 1}`}
+                      value={op.size}
+                      min={1}
+                      max={9999999}
+                      onValueChange={(size) => set(i, { ...op, size })}
+                      className="w-24"
+                    />
+                  )}
+                </td>
+                <td>
+                  <Button
+                    variant="ghost"
+                    aria-label={`Remove action ${i + 1}`}
+                    onClick={() => onChange(ops.filter((_, j) => j !== i))}
+                  >
+                    <Icon name="close" />
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="flex gap-2">
         <Button
           onClick={() =>
@@ -249,8 +251,7 @@ export function AllocationView({
                 <strong>{result.failed.length ? result.failed.join(', ') : 'none'}</strong> · Free
                 memory: <strong>{result.freeTotal}</strong> · Largest hole:{' '}
                 <strong>{result.largestHole}</strong>
-                {result.failed.length > 0 &&
-                  result.freeTotal > 0 &&
+                {result.fragmented &&
                   ' (external fragmentation: enough free memory in total, but not in one piece)'}
               </p>
             )}
@@ -267,8 +268,11 @@ export function AllocationView({
               return (
                 <div key={s.id} className="flex flex-col gap-1">
                   <h3 className="text-sm font-semibold">
-                    {s.name}: could not allocate {r.failed.length ? r.failed.join(', ') : 'none'} ·
-                    largest hole {r.largestHole}
+                    {s.name}:{' '}
+                    {r.failed.length
+                      ? `could not allocate ${r.failed.join(', ')}`
+                      : 'every request fit'}{' '}
+                    · largest hole {r.largestHole}
                   </h3>
                   <MemoryBar segments={last} names={names} highlight={null} />
                 </div>

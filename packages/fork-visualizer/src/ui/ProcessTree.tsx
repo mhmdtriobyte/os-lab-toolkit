@@ -1,5 +1,6 @@
 import {
   Background,
+  BaseEdge,
   Controls,
   Handle,
   MarkerType,
@@ -7,7 +8,10 @@ import {
   ReactFlow,
   ReactFlowProvider,
   useReactFlow,
+  useStore,
+  type BuiltInEdge,
   type Edge,
+  type EdgeProps,
   type Node,
   type NodeProps,
 } from '@xyflow/react';
@@ -42,7 +46,7 @@ function ProcNode({ data }: NodeProps<Node<ProcNodeData>>) {
       )}
       style={{ borderColor: proc.kind === 'user' ? color : '#94a3b8' }}
     >
-      <Handle type="target" position={Position.Top} className="!opacity-0" />
+      <Handle id="top" type="target" position={Position.Top} className="!opacity-0" />
       <div className="text-sm font-bold text-slate-900 dark:text-white">
         {proc.kind === 'user' ? `P${proc.pid}` : `${proc.name} (${proc.pid})`}
       </div>
@@ -56,12 +60,48 @@ function ProcNode({ data }: NodeProps<Node<ProcNodeData>>) {
         {state === 'zombie' ? 'zombie <defunct>' : style.label}
         {proc.signal ? ` (${proc.signal})` : ''}
       </span>
-      <Handle type="source" position={Position.Bottom} className="!opacity-0" />
+      <Handle id="bottom" type="source" position={Position.Bottom} className="!opacity-0" />
+      <Handle id="side-out" type="source" position={Position.Right} className="!opacity-0" />
     </div>
   );
 }
 
 const nodeTypes = { proc: ProcNode };
+
+type ReparentEdgeType = Edge<{ rightX: number }, 'reparent'>;
+
+/**
+ * init -> orphan: runs down the right of the whole tree, then across the gap just above the
+ * orphan, so the line never passes through another process.
+ */
+function ReparentEdge({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  data,
+  markerEnd,
+  style,
+  label,
+}: EdgeProps<ReparentEdgeType>) {
+  const right = data?.rightX ?? sourceX;
+  const gapY = targetY - GAP_Y / 2;
+  const endX = targetX + NODE_W / 4;
+  return (
+    <BaseEdge
+      id={id}
+      path={`M ${sourceX} ${sourceY} H ${right} V ${gapY} H ${endX} V ${targetY}`}
+      markerEnd={markerEnd}
+      style={style}
+      label={label}
+      labelX={right}
+      labelY={sourceY + GAP_Y}
+    />
+  );
+}
+
+const edgeTypes = { reparent: ReparentEdge };
 
 /** Tidy tree layout by creator (who forked whom), which never changes even when re-parented. */
 function layout(procs: readonly Process[]): Map<number, { x: number; y: number }> {
@@ -89,15 +129,20 @@ function layout(procs: readonly Process[]): Map<number, { x: number; y: number }
   return pos;
 }
 
-/** Re-fits the view whenever processes appear, so new children are never off-screen. */
+/**
+ * Re-fits the view whenever processes appear or the panel is resized (window, presentation mode),
+ * so the tree always fills the panel and new children are never off-screen.
+ */
 function FitOnGrow({ count }: { count: number }) {
   const { fitView } = useReactFlow();
+  const width = useStore((s) => s.width);
+  const height = useStore((s) => s.height);
   useEffect(() => {
     const id = window.requestAnimationFrame(
       () => void fitView({ padding: 0.15, maxZoom: 1.2, duration: 200 }),
     );
     return () => window.cancelAnimationFrame(id);
-  }, [count, fitView]);
+  }, [count, width, height, fitView]);
   return null;
 }
 
@@ -126,24 +171,32 @@ function Tree({ snapshot, pidStart }: { snapshot: ForkSnapshot; pidStart: number
       draggable: false,
       connectable: false,
     }));
-    const edges: Edge[] = [];
+    const rightX = Math.max(...[...pos.values()].map((p) => p.x)) + NODE_W + GAP_X;
+    const edges: (BuiltInEdge | ReparentEdgeType)[] = [];
     for (const proc of sys.procs) {
       if (proc.pid === 1) continue;
       const color = proc.kind === 'user' ? pidColor(proc.pid, pidStart) : '#94a3b8';
       edges.push({
         id: `c${proc.pid}`,
         source: String(proc.creator),
+        sourceHandle: 'bottom',
         target: String(proc.pid),
+        targetHandle: 'top',
         animated: forkedNow.has(proc.pid),
         label: proc.kind === 'user' && proc.pid !== pidStart ? 'fork()' : undefined,
         style: { stroke: color, strokeWidth: 2, opacity: proc.orphaned ? 0.35 : 1 },
         markerEnd: { type: MarkerType.ArrowClosed, color },
       });
-      if (proc.orphaned) {
+      // Only while the orphan is alive: once init has reaped it, it has no parent at all.
+      if (proc.orphaned && proc.state !== 'terminated') {
         edges.push({
           id: `o${proc.pid}`,
           source: '1',
+          sourceHandle: 'side-out',
           target: String(proc.pid),
+          targetHandle: 'top',
+          type: 'reparent',
+          data: { rightX },
           label: 're-parented',
           style: { stroke: '#e11d48', strokeDasharray: '6 4', strokeWidth: 2 },
           markerEnd: { type: MarkerType.ArrowClosed, color: '#e11d48' },
@@ -159,6 +212,7 @@ function Tree({ snapshot, pidStart }: { snapshot: ForkSnapshot; pidStart: number
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         fitView
         fitViewOptions={{ padding: 0.15, maxZoom: 1.2 }}
         nodesDraggable={false}

@@ -20,7 +20,7 @@ export function ProcessTableEditor({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="overflow-auto">
+      <div className="relative overflow-auto">
         <table className={tableClass}>
           <thead>
             <tr>

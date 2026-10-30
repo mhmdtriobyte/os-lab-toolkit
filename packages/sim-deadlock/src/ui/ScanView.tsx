@@ -40,7 +40,7 @@ export function ScanView({
         label={done ? summary : `Pass ${step.pass}: ${step.note}`}
       />
       <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto]">
-        <div className="overflow-auto">
+        <div className="relative overflow-auto">
           <table className={cx(tableClass, 'tabular-nums')}>
             <thead>
               <tr>

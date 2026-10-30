@@ -13,7 +13,7 @@ export function PsTable({
   const { sys, ran } = snapshot;
   const rows = sys.procs.filter((p) => p.state !== 'terminated');
   return (
-    <div className="overflow-auto">
+    <div className="relative overflow-auto">
       <p className="mb-1 font-mono text-xs text-slate-500 dark:text-slate-400">
         $ ps -af &nbsp; (virtual time t={sys.clock})
       </p>

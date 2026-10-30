@@ -1,4 +1,12 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 
 export type ThemeMode = 'light' | 'dark';
 
@@ -34,13 +42,18 @@ function initialTheme(): ThemeMode {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<ThemeMode>(initialTheme);
+  const [theme, setThemeState] = useState<ThemeMode>(initialTheme);
   const [presentation, setPresentation] = useState(() => readStored('oslab.presentation') === '1');
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
-    writeStored('oslab.theme', theme);
   }, [theme]);
+
+  // Only an explicit choice is remembered; until then the site follows the system setting.
+  const setTheme = useCallback((next: ThemeMode) => {
+    setThemeState(next);
+    writeStored('oslab.theme', next);
+  }, []);
 
   useEffect(() => {
     document.documentElement.classList.toggle('presentation', presentation);
@@ -49,7 +62,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(
     () => ({ theme, setTheme, presentation, setPresentation }),
-    [theme, presentation],
+    [theme, setTheme, presentation],
   );
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }

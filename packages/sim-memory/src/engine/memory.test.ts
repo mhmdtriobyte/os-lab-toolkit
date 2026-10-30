@@ -94,4 +94,11 @@ describe('contiguous allocation', () => {
     ]);
     expect(r.largestHole).toBe(100);
   });
+
+  it('a request larger than all free memory is not called fragmentation', () => {
+    const r = simulateAllocation([100], [{ kind: 'alloc', name: 'A', size: 150 }], 'first');
+    expect(r.failed).toEqual(['A']);
+    expect(r.fragmented).toBe(false);
+    expect(r.steps[0]?.note).toContain('only 100 units are free');
+  });
 });

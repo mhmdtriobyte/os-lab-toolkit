@@ -58,12 +58,17 @@ process that ran one statement), so long traces stay cheap.
   reached through different histories are shared). It stops at `maxStates` (default 50 000) and reports
   that the result is partial. A cycle on the current DFS path (an infinite loop) yields the outcome
   `"... (does not terminate)"`. Example traces are rebuilt afterwards by walking the memo table, so only
-  one successor per output is stored.
+  one successor per output is stored. Each state keeps at most `maxOutcomes` (default 500) distinct
+  outputs: programs such as three unconditional `fork()` calls followed by a `printf` of PIDs have
+  hundreds of thousands of orderings, and keeping them all took tens of seconds and could not be shown
+  anyway. Hitting the cap sets `outcomesCapped` and the UI says that only some outputs are listed.
+  Both modules run the explorer in a Web Worker (`useWorkerJob`) so the page stays responsive and
+  the search can be cancelled.
 - `encodeState / decodeState` - lz-string `compressToEncodedURIComponent` of the JSON module input.
 
 The React half of `@oslab/core` holds `StepPlayer`, `useSharedInput`, `ModuleHeader` (examples menu,
 share link, export/import JSON), `OutcomeList` (results of an exhaustive exploration), the theme and
-presentation-mode provider, and small primitives (`Panel`, `Button`, `Tabs`, `Alert`, `seriesColor`…).
+presentation-mode provider, `useWorkerJob` (runs a long computation in a Web Worker), and small primitives (`Panel`, `Button`, `Tabs`, `Alert`, `seriesColor`…).
 
 ## Shareable links and examples
 

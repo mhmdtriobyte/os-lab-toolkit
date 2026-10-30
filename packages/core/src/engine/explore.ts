@@ -19,6 +19,8 @@ export interface ExploreSpec<S, C> {
   maxStates?: number;
   /** Stop a single path after this many moves (default 5 000). */
   maxDepth?: number;
+  /** Keep at most this many distinct outputs per state (default 500); further ones are dropped. */
+  maxOutcomes?: number;
 }
 
 export type OutcomeKind = 'complete' | 'nonterminating' | 'truncated';
@@ -39,6 +41,8 @@ export interface ExploreResult<C> {
   totalInterleavings: number;
   /** True if maxStates or maxDepth was hit, so some outcomes may be missing. */
   truncated: boolean;
+  /** True if maxOutcomes was hit: there are more distinct outputs than the ones listed. */
+  outcomesCapped: boolean;
 }
 
 const LOOP = '\u0000loop';
@@ -47,9 +51,11 @@ const TRUNC = '\u0000trunc';
 export function explore<S, C>(spec: ExploreSpec<S, C>): ExploreResult<C> {
   const maxStates = spec.maxStates ?? 50_000;
   const maxDepth = spec.maxDepth ?? 5_000;
+  const maxOutcomes = spec.maxOutcomes ?? 500;
   const memo = new Map<string, Map<string, number>>();
   const onPath = new Set<string>();
   let truncated = false;
+  let outcomesCapped = false;
 
   const visit = (state: S, depth: number): Map<string, number> => {
     const k = spec.key(state);
@@ -70,7 +76,10 @@ export function explore<S, C>(spec: ExploreSpec<S, C>): ExploreResult<C> {
         const { next, emit } = spec.apply(state, choice);
         for (const [suffix, count] of visit(next, depth + 1)) {
           const out = emit + suffix;
-          result.set(out, (result.get(out) ?? 0) + count);
+          const prev = result.get(out);
+          if (prev !== undefined) result.set(out, prev + count);
+          else if (result.size < maxOutcomes) result.set(out, count);
+          else outcomesCapped = true;
         }
       }
       onPath.delete(k);
@@ -123,5 +132,11 @@ export function explore<S, C>(spec: ExploreSpec<S, C>): ExploreResult<C> {
     outcomes.push({ output, kind, count, path: pathFor(raw) });
   }
   outcomes.sort((a, b) => b.count - a.count || a.output.localeCompare(b.output));
-  return { outcomes, statesExplored: memo.size, totalInterleavings: total, truncated };
+  return {
+    outcomes,
+    statesExplored: memo.size,
+    totalInterleavings: total,
+    truncated,
+    outcomesCapped,
+  };
 }

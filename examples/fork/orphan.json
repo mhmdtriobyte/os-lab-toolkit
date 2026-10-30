@@ -1,7 +1,7 @@
 {
   "id": "orphan",
   "title": "Orphan demo",
-  "description": "The parent exits first; the child is re-parented to init (PID 1).",
+  "description": "The parent exits first; the child is re-parented to init (PID 1). On a modern Linux desktop the new parent may be a \"subreaper\" such as systemd instead.",
   "input": {
     "code": "#include <stdio.h>\n#include <unistd.h>\n\nint main() {\n    pid_t pid = fork();\n    if (pid == 0) {\n        printf(\"Child %d: my parent is %d\\n\", getpid(), getppid());\n        sleep(5);\n        printf(\"Child %d: now my parent is %d (init)\\n\", getpid(), getppid());\n    } else {\n        printf(\"Parent %d exits without waiting\\n\", getpid());\n        sleep(1);\n    }\n    return 0;\n}\n"
   }
